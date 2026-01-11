@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Chatbot Testi</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    /* --- TEMEL AYARLAR --- */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+      /* --- ARKA PLAN RESMİ AYARI --- */
+      /* GitHub'da yüklü olan dosyanın tam adı buraya yazıldı */
+      background-image: url('./og-image.webp'); 
+      
+      background-size: cover;        /* Resmi ekrana sığdırır */
+      background-position: center top; /* Resmi ortalar */
+      background-repeat: no-repeat;  /* Tekrar etmesini engeller */
+      background-attachment: fixed;  /* Sayfa kayarken resim sabit kalır */
+      
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 16px;
+      overflow: hidden; /* Scroll bar çıkmasını engellemek için */
+    }
+
+    /* --- CHAT KUTUSU (WRAPPER) --- */
+    .chat-wrapper {
+      background: #ffffff;
+      width: 100%;
+      max-width: 480px;
+      height: 80vh;
+      max-height: 720px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+      display: flex; 
+      flex-direction: column;
+      
+      /* Animasyon geçiş ayarları (Açılış efekti) */
+      transition: all 0.4s ease-in-out;
+      opacity: 0; /* Başlangıçta görünmez */
+      transform: scale(0.9) translateY(20px); /* Hafif küçük ve aşağıda başlar */
+      pointer-events: none; /* Görünmezken tıklanmasın */
+      
+      position: relative;
+      z-index: 10;
+    }
+
+    /* Chat kutusu "aktif" olduğunda (Butona basılınca) */
+    .chat-wrapper.active {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+      pointer-events: all;
+    }
+
+    /* --- IFRAME STİLİ --- */
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    /* --- AÇIP KAPATMA BUTONU TASARIMI --- */
+    .toggle-btn {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 60px;
+      height: 60px;
+      background-color: #FFFFFF; /* Kırmızı renk */
+      color: red;
+      border: none;
+      border-radius: 50%; /* Yuvarlak yapar */
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.3s ease, background-color 0.3s;
+      z-index: 20; /* En üstte durur */
+    }
+
+    .toggle-btn:hover {
+      transform: scale(1.1); /* Üzerine gelince büyür */
+      background-color: #000000; /* Rengi koyulaşır */
+    }
+
+    .toggle-btn:active {
+      transform: scale(0.95); /* Tıklayınca hafif küçülür */
+    }
+
+    /* Buton içindeki ikonlar (SVG) */
+    .icon-open, .icon-close {
+      position: absolute;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      width: 30px;
+      height: 30px;
+    }
+
+    /* Chat AÇIKKEN ikon durumu */
+    .chat-open .icon-open {
+      opacity: 0;
+      transform: rotate(90deg);
+    }
+    .chat-open .icon-close {
+      opacity: 1;
+      transform: rotate(0);
+    }
+
+    /* Chat KAPALIYKEN ikon durumu (Default) */
+    .icon-close {
+      opacity: 0;
+      transform: rotate(-90deg);
+    }
+    
+  </style>
+</head>
+<body>
+
+  <!-- Chat Kutusu -->
+  <div class="chat-wrapper" id="chatWrapper">
+     <!-- Senin verdiğin Chatbot linki -->
+     <iframe src=https://z2o4qssc.rpcl.app/webhook/642edc82-b26e-443f-8874-8666d6512efa/chat></iframe>
+  </div>
+
+  <!-- Sağ Alt Köşedeki Yuvarlak Buton -->
+  <button class="toggle-btn" id="toggleBtn" onclick="toggleChat()">
+    <!-- Mesaj İkonu -->
+    <svg class="icon-open" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg>
+    
+    <!-- Kapatma (X) İkonu -->
+    <svg class="icon-close" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+  </button>
+
+  <script>
+    // Butona basılınca çalışacak fonksiyon
+    function toggleChat() {
+      const wrapper = document.getElementById('chatWrapper');
+      const btn = document.getElementById('toggleBtn');
+      
+      // 'active' ve 'chat-open' sınıflarını ekle/çıkar
+      wrapper.classList.toggle('active');
+      btn.classList.toggle('chat-open');
+    }
+  </script>
+
+</body>
+</html>
+
