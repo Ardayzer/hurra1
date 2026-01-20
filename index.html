@@ -205,6 +205,7 @@
     const API_KEY = "hurra_chatbot_api_key_060320018426"; // senin belirlediğin gizli token (sadece örnek)
     // ✅ BURAYI DÜZENLE
 
+    let isLoading =false;
     // Basit sessionId: aynı tarayıcıda aynı kullanıcıyı tutar
     const sessionId = (() => {
       const k = "hurra_session_id";
@@ -240,13 +241,15 @@
     }
 
     async function sendMessage() {
+      if(isLoading) return;
       const input = document.getElementById("chatInput");
       const sendBtn = document.getElementById("sendBtn");
       const text = (input.value || "").trim();
       if (!text) return;
-
+      isLoading = true;
       addMsg(text, "user");
       input.value = "";
+      inpuy.disabled = true;
 
       sendBtn.disabled = true;
       setStatus("Yanıtlanıyor...");
@@ -295,7 +298,10 @@
         setStatus("Hurra Türkiye Yapay Zeka Sohbet Botu v1.0");
         console.error(e);
       } finally {
+        isLoading = false;
         sendBtn.disabled = false;
+        input.disabled = false;
+        input.focus();
       }
     }
 
